@@ -1,0 +1,13 @@
+{
+  "name": "ornl-seminar-talha",
+  "private": true,
+  "description": "ORNL CSED interview seminar slides (reveal.js 5.1.0, vendored).",
+  "scripts": {
+    "serve": "python3 tools/serve.py 8000",
+    "render": "node tools/render_slides.mjs http://localhost:8000/index.html renders",
+    "pdf": "node tools/export_pdf.mjs http://localhost:8000/index.html ORNL_Seminar_Talha.pdf"
+  },
+  "devDependencies": {
+    "playwright": "1.47.2"
+  }
+}

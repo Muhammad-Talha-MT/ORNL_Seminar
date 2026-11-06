@@ -1,0 +1,5 @@
+node_modules/
+renders/slide-*.png
+
+# large demo video (kept local; over the 100 MB GitHub file limit)
+hydroorbit_booth_v6.mp4
