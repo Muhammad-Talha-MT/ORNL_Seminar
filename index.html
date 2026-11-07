@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="js/vendor/reveal/reset.css">
 <link rel="stylesheet" href="js/vendor/reveal/reveal.css">
 <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="css/theme.css?v=137">
+<link rel="stylesheet" href="css/theme.css?v=139">
 </head>
 <body>
 <div class="reveal">
@@ -1367,7 +1367,7 @@
 <!-- ================================================================ S3 CONCLUSION -->
 <section>
   <div class="tbar"><b>Study 3:</b>Conclusion</div>
-  <div class="body" style="gap:40px">
+  <div class="body" style="gap:40px;padding-bottom:236px">
     <p class="lead enter"><b>Study 3 shows that learned basin embeddings outperform the other representation options, especially in unseen basins.</b></p>
     <div class="concl">
       <div class="est enter" style="--d:.15s"><span class="tab">Established</span>
@@ -1386,10 +1386,12 @@
       </div>
     </div>
   </div>
+
+  <div class="abs enter" style="--d:.5s;left:58px;top:860px;width:1804px;height:180px;box-sizing:border-box;border:2.5px solid var(--msu);border-radius:18px;background:#fff;display:flex;align-items:center;gap:30px;padding:0 24px"><img src="assets/img/qr_basin2vec.svg" alt="QR code: Basin2Vec page" style="width:150px;height:150px;display:block"><div><div style="font-size:38px;font-weight:700;color:var(--msu)">Explore more: Basin2Vec</div><div style="font-size:26px;color:#61706B;margin-top:4px">Scan, or visit muhammad-talha-mt.github.io/basin2vec</div></div></div>
   <aside class="notes">
     What did Study 3 establish? The main takeaway: learned basin embeddings perform better than the other representation options, the CAMELS attributes and the Earth-observation embeddings. One frozen Basin2Vec descriptor ranked first for all five predictors, with average relative gains of up to 8.3 percent over time, and on unseen basins 3.5 times the median NSE of the strongest baseline. And the ablations show that every component helps, and metadata conditioning matters most for transfer to unseen basins.
     [click] But look at what the descriptor is. It is one static vector per basin, averaged over years, used to predict basin-mean runoff at one outlet. It says nothing about the reaches inside the basin, and it does not represent how water moves downstream through the river network. To forecast at ungauged reaches, we need to represent that network explicitly.
-    [click] That is the last study: the basin as a directed river network.
+    [click] That is the last study: the basin as a directed river network. For more on Basin2Vec, the QR code at the bottom links to its page.
   </aside>
 </section>
 
@@ -1802,18 +1804,19 @@
 <!-- ================================================================ 40. THANK YOU -->
 <section class="divider" data-background-color="#054A37">
   <div class="inner">
-    <h2 class="enter" style="font-size:110px">Thank you</h2>
+    <h2 class="enter" style="font-size:96px">Thank you</h2>
     <div class="rule grow-x" style="--d:.25s"></div>
-    <div class="tag enter" style="--d:.35s;font-size:54px;color:var(--amber);font-weight:600">Questions?</div>
-    <div class="row enter" style="--d:.6s;gap:60px;align-items:center;margin-top:40px">
-      <div style="background:#fff;border-radius:50%;padding:10px;width:170px;height:170px;box-sizing:border-box"><img src="assets/img/msu_seal.png" alt="Michigan State University seal" style="width:100%;height:100%"></div>
-      <img src="assets/img/ornl_logo_white.svg" alt="Oak Ridge National Laboratory" style="width:420px">
+    <div class="tag enter" style="--d:.35s;font-size:46px;color:var(--amber);font-weight:600">Questions?</div>
+    <div class="row enter" style="--d:.5s;gap:60px;align-items:center;margin-top:10px">
+      <div style="background:#fff;border-radius:50%;padding:8px;width:130px;height:130px;box-sizing:border-box"><img src="assets/img/msu_seal.png" alt="Michigan State University seal" style="width:100%;height:100%"></div>
+      <img src="assets/img/ornl_logo_white.svg" alt="Oak Ridge National Laboratory" style="width:330px">
     </div>
-    <div class="enter-fade" style="--d:.8s;font-size:28px;color:#DDEAE4;margin-top:30px">Muhammad Talha · Michigan State University · talhamuh@msu.edu</div>
+    <div class="row" style="gap:40px;align-items:stretch;justify-content:center;margin-top:34px"><div class="enter" style="--d:0.7s;background:#fff;border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:26px;box-sizing:border-box"><img src="assets/img/qr_slides.svg" alt="QR code: Access these slides" style="width:190px;height:190px;display:block"><div style="text-align:left;color:var(--msu)"><div style="font-size:34px;font-weight:700;line-height:1.15">Access these slides</div><div style="font-size:23px;color:#61706B;margin-top:8px">muhammad-talha-mt.github.io/<wbr>ORNL_Seminar</div></div></div><div class="enter" style="--d:0.85s;background:#fff;border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:26px;box-sizing:border-box"><img src="assets/img/qr_profile.svg" alt="QR code: My profile and papers" style="width:190px;height:190px;display:block"><div style="text-align:left;color:var(--msu)"><div style="font-size:34px;font-weight:700;line-height:1.15">My profile and papers</div><div style="font-size:23px;color:#61706B;margin-top:8px">muhammad-talha-mt.github.io</div></div></div></div>
+    <div class="enter-fade" style="--d:1s;font-size:28px;color:#DDEAE4;margin-top:26px">Muhammad Talha · Michigan State University · talhamuh@msu.edu</div>
   </div>
   <aside class="notes">
     Thank you. I'd like to thank my advisors, Dr. Pouyan Nejadhashemi and Dr. Pang-Ning Tan, my co-authors, and my mentors and colleagues here at ORNL for the Tennessee River Basin work.
-    I'm happy to take questions on any part: the architectures, the BASINGRID infrastructure, the contrastive objective, or the forecast evaluation.
+    The QR codes link to these slides, to my profile and papers, and (from the Basin2Vec slide) to the Basin2Vec page. I'm happy to take questions on any part: the architectures, the BASINGRID infrastructure, the contrastive objective, or the forecast evaluation.
     Likely questions to be ready for: whether the GNN's held-out advantage comes from the graph or from NWM pretraining, where the answer is that the matched ablation is running now; how NWM's assimilation affects the comparison; why the LSTM wins at early leads at gauges; and how BASINGRID's chunking would map onto Frontier's file system.
   </aside>
 </section>
