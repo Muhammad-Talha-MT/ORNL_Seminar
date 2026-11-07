@@ -34,6 +34,8 @@
     return parts.join(".");
   }
   function countUp(el) {
+    // disabled: numbers are shown directly (the markup already holds the final value)
+    return;
     if (PRINT) return;
     var target = parseFloat(el.getAttribute("data-count"));
     var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
