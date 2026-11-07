@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="js/vendor/reveal/reset.css">
 <link rel="stylesheet" href="js/vendor/reveal/reveal.css">
 <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="css/theme.css?v=110">
+<link rel="stylesheet" href="css/theme.css?v=137">
 </head>
 <body>
 <div class="reveal">
@@ -943,7 +943,7 @@
             <tr><td class="b">Variables</td><td style="text-align:left">16 &middot; 6 daily, 2 annual, 8 static</td></tr>
           </table>
         </div>
-        <img src="assets/img/comps_basingrid_website.jpg" alt="BASINGRID patch explorer website" style="width:100%;height:290px;object-fit:cover;object-position:top left;border-radius:10px;border:2px solid var(--line)">
+        <div class="row" style="gap:18px"><img src="assets/img/comps_basingrid_website.jpg" alt="BASINGRID patch explorer website" style="flex:1 1 0;min-width:0;height:290px;object-fit:cover;object-position:top left;border-radius:10px;border:2px solid var(--line)"><img src="assets/img/basingrid_article.png" alt="Scientific Data article page: BASINGRID, published 06 August 2026" style="flex:1 1 0;min-width:0;height:290px;object-fit:cover;object-position:top left;border-radius:10px;border:2px solid var(--line)"></div>
         <div class="c" style="font-size:31px"><span class="b g">basingrid.ciwre.msu.edu</span> · <span class="mut">Scientific Data</span></div>
       </div>
     </div>
@@ -1380,7 +1380,6 @@
       <div class="nxt fragment fade-left"><span class="tab">Next Challenge</span>
         <ul>
           <li>One descriptor per basin: <span class="r">one outlet</span>, nothing about the <span class="r">reaches inside</span>.</li>
-          <li><span class="r">Static</span>: no downstream flow of water.</li>
           <li>Ungauged reaches need the <span class="r">river network</span> explicitly.</li>
         </ul>
         <div class="nextline fragment zoom-in">Next: the basin as a directed river network</div>
@@ -1397,13 +1396,13 @@
 <!-- ================================================================ 29. DIVIDER PART 4 -->
 <section class="divider" data-background-color="#054A37">
   <div class="inner">
-    <div class="part enter">Part 4 · Ongoing</div>
+    <div class="part enter">Study 4 · Ongoing</div>
     <h2 class="enter" style="--d:.15s">A River-Network GNN for the Tennessee River Basin</h2>
     <div class="rule grow-x" style="--d:.35s"></div>
     <div class="tag enter" style="--d:.45s">The basin as a directed river network</div>
   </div>
   <aside class="notes">
-    Part four is ongoing work from my internship here at ORNL: a graph neural network over the full river network of the Tennessee River Basin.
+    Study four is ongoing work from my internship here at ORNL: a graph neural network over the full river network of the Tennessee River Basin.
     This is the centerpiece, and I want to be careful about what I claim. The results I'll show are promising: the model holds its skill at gauges it never saw during training. But the experiments that would tell us why, whether it's the graph, the routing, or the physics-model pretraining, are still running. I'll show you exactly where the evidence stops.
     Let me start with the problem setting.
   </aside>
@@ -1412,26 +1411,26 @@
 <!-- ================================================================ S4 MOTIVATION -->
 <section>
   <div class="tbar"><b>Study 4:</b>Motivation</div>
-  <div class="qbox enter abs" style="left:56px;top:112px;width:1808px;box-sizing:border-box;padding:10px 24px;font-size:35px;color:var(--ink)"><span class="ql">Motivation</span>Water managers need forecasts at <span class="r">river reaches that have no gauge</span>.</div>
+  <div class="qbox enter abs" style="left:56px;top:112px;width:1808px;box-sizing:border-box;padding:10px 24px;font-size:35px;color:var(--ink)"><span class="ql">Motivation</span>Water managers need forecasts <span class="r">where there is no gauge</span>.</div>
   <div class="card abs enter" style="position:absolute;--d:.1s;left:58px;top:236px;width:1010px;height:640px;padding:46px 20px 18px;box-sizing:border-box"><span class="tab" style="font-size:30px">Example: forecasting inflow to a hydropower reservoir</span>
     <video data-autoplay muted playsinline preload="metadata" controls poster="assets/img/hydroorbit_poster.jpg" style="width:100%;height:100%;object-fit:contain;border-radius:10px;background:#0B1220"><source src="hydroorbit_booth_v6.mp4" type="video/mp4"></video>
   </div>
-  <div class="card abs fragment fade-left" data-fragment-index="1" style="position:absolute;left:1092px;top:236px;width:770px;height:186px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab blue" style="font-size:28px">1 &middot; The need</span><div style="font-size:27px;line-height:1.3;color:var(--ink)"><b>10-day inflow forecasts</b> support hydropower and flood planning. They must use <b>rain forecasts available at issue time</b>, not observed future rain.</div></div>
-  <div class="card abs fragment fade-left" data-fragment-index="2" style="position:absolute;left:1092px;top:456px;width:770px;height:186px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab red" style="font-size:28px">2 &middot; The gap</span><div style="font-size:27px;line-height:1.3;color:var(--ink)">Only <b>128 of 58,834</b> reaches have a public gauge. Regional LSTMs predict <b>per basin</b>, and do not carry flow <b>downstream through the network</b>.</div></div>
-  <div class="card abs fragment fade-left" data-fragment-index="3" style="position:absolute;left:1092px;top:676px;width:770px;height:186px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab" style="font-size:28px">3 &middot; The idea</span><div style="font-size:27px;line-height:1.3;color:var(--ink)">Treat the river as a <b>directed network</b>. Learn from <b>simulation</b> everywhere and <b>observations</b> at few gauges, then test at <b>gauges never seen</b>.</div></div>
-  <div class="abs fragment fade-up" data-fragment-index="4" style="left:58px;top:900px;width:1804px;height:120px;box-sizing:border-box;background:var(--next);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:33px;line-height:1.3;color:var(--ink);padding:0 30px"><span><b>Open question:</b> does skill at unseen gauges come from the <span style="color:#E00">network</span>, the <span style="color:#E00">simulation</span>, or the <span style="color:#E00">observations</span>?</span></div>
+  <div class="card abs fragment fade-left" data-fragment-index="1" style="position:absolute;left:1092px;top:236px;width:770px;height:196px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab blue" style="font-size:28px;">1 &middot; The need</span><div style="font-size:30px;line-height:1.28;color:var(--ink)">Managers need forecasts <b>days ahead</b>, also on rivers <b>with no gauge</b>.</div></div>
+  <div class="card abs fragment fade-left" data-fragment-index="2" style="position:absolute;left:1092px;top:456px;width:770px;height:196px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab red" style="font-size:28px;">2 &middot; Prior work</span><div style="font-size:30px;line-height:1.28;color:var(--ink)">GNNs on the Danube: <b>river topology added almost nothing</b>.<br><span class="mut" style="font-size:24px">Kirschstein &amp; Sun, 2024 &middot; every node gauged, 6 h ahead</span></div></div>
+  <div class="card abs fragment fade-left" data-fragment-index="3" style="position:absolute;left:1092px;top:676px;width:770px;height:196px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab " style="font-size:28px;">3 &middot; Our setting</span><div style="font-size:30px;line-height:1.28;color:var(--ink)">Most reaches are <b>ungauged</b> and leads reach <b>10 days</b>: the network must <b>carry skill</b> where no data exist.</div></div>
+  <div class="abs fragment fade-up" data-fragment-index="4" style="left:58px;top:900px;width:1804px;height:120px;box-sizing:border-box;background:var(--next);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:38px;line-height:1.3;color:var(--ink);padding:0 30px"><span><b>Question:</b> can a river network carry forecast skill to <span style="color:#E00">reaches it has never observed</span>?</span></div>
   <aside class="notes">
-    Here is why this study exists. Hydropower and water managers need to know how much water is coming, days ahead, and the video shows a real example: a storm over a hydropower reservoir basin, and a forecast issued before the peak.
-    [click] The need: ten-day inflow forecasts, built from the rain forecast that actually exists at issue time, not from future rain observed afterward.
-    [click] The gap: only 128 of 58,834 reaches in the Tennessee River Basin have a public gauge, and regional LSTMs predict per basin, so they do not carry flow downstream through the river network.
-    [click] The idea: treat the river as a directed network, learn from a simulation everywhere and observations at a few gauges, and test at gauges the model never saw.
-    [click] And the honest open question: whether that skill comes from the network, the simulation, or the observations. That is what the ablations are for.
+    Here is the story behind this study. The video shows the use case: a storm over a hydropower reservoir basin, and a forecast issued before the peak arrives.
+    [click] The need: managers want flow forecasts days ahead, and they want them on rivers that have no gauge, not only at the few that do.
+    [click] Graph neural networks are the natural tool for river networks, and they have been tried. Kirschstein and Sun, in 2024, compared several GNNs on the Danube network and found that the river topology added almost nothing over models that treat each station on its own. But look at their setting: every node is a gauge with its own observed flow, and the forecast is only six hours ahead. When each node already sees its own recent flow, the neighbours have little to add.
+    [click] Our setting is the opposite. Most reaches have no gauge at all, and we forecast up to ten days ahead from the rain forecast. Here the network has to carry information to places with no observations of their own.
+    [click] So the question for this study: can a river network carry forecast skill to reaches it has never observed? I will show that it transfers to withheld gauges; why it does is still being tested.
   </aside>
 </section>
 
 <!-- ================================================================ 30. P4 PROBLEM -->
 <section>
-  <div class="tbar"><b>Part 4:</b>Problem, forecasting where there is no gauge</div>
+  <div class="tbar"><b>Study 4:</b>Problem, forecasting where there is no gauge</div>
   <div class="body">
     <div class="qbox enter"><span class="ql">Question this answers</span>Can one model forecast flow at <span class="r">every reach</span>, and keep its skill at <span class="r">gauges it never saw</span>?</div>
     <div class="row" style="flex:1 1 auto;min-height:0;gap:28px;margin-top:10px">
@@ -1529,21 +1528,19 @@
         <text x="340" y="548" font-size="30" fill="#222">recent observed flow sharpens the forecast, with upper quantiles for floods.</text>
       </g>
       <g class="fragment" data-fragment-index="4">
-        <rect x="0" y="610" width="1808" height="270" rx="22" fill="#fff" stroke="#C9CFCC" stroke-width="3"/>
-        <rect x="24" y="592" width="310" height="40" fill="#054A37"/><text x="38" y="622" fill="#fff" font-size="28">Two-stage training</text>
-        <rect x="40" y="660" width="760" height="190" rx="16" fill="#EEF4F1" stroke="#16745B" stroke-width="3"/>
-        <circle cx="110" cy="755" r="38" fill="#054A37"/><text x="110" y="768" text-anchor="middle" font-size="40" font-weight="800" fill="#fff">A</text>
-        <text x="175" y="725" font-size="34" font-weight="700" fill="#054A37">Learn from simulation</text>
-        <text x="175" y="768" font-size="28" fill="#222">every reach, from the NWM retrospective</text>
-        <text x="175" y="808" font-size="26" fill="#61706B">no gauge data needed</text>
-        <line class="draw" pathLength="1" x1="810" y1="755" x2="896" y2="755" stroke="#054A37" stroke-width="6" marker-end="url(#arw)"/>
-        <rect x="908" y="660" width="860" height="190" rx="16" fill="#FBE3D6" stroke="#E8693A" stroke-width="3"/>
-        <circle cx="978" cy="755" r="38" fill="#E8693A"/><text x="978" y="768" text-anchor="middle" font-size="40" font-weight="800" fill="#fff">B</text>
-        <text x="1043" y="725" font-size="34" font-weight="700" fill="#054A37">Correct with observations</text>
-        <text x="1043" y="768" font-size="28" fill="#222">at the few gauges, staying near the simulation</text>
-        <text x="1043" y="808" font-size="26" font-weight="700" fill="#B26B00">test: gauges withheld in 5 folds</text>
+        <rect x="0" y="606" width="1808" height="268" rx="22" fill="#fff" stroke="#C9CFCC" stroke-width="3"/>
+        <rect x="24" y="588" width="310" height="40" fill="#054A37"/><text x="38" y="618" fill="#fff" font-size="28">Two-stage training</text>
+        <rect x="30" y="648" width="700" height="206" rx="16" fill="#EEF4F1" stroke="#16745B" stroke-width="3"/>
+        <circle cx="92" cy="702" r="34" fill="#054A37"/><text x="92" y="716" text-anchor="middle" font-size="38" font-weight="800" fill="#fff">A</text>
+        <text x="148" y="714" font-size="34" font-weight="700" fill="#054A37">Learn from simulation</text>
+        <line class="draw" pathLength="1" x1="738" y1="751" x2="808" y2="751" stroke="#054A37" stroke-width="6" marker-end="url(#arw)"/>
+        <rect x="818" y="648" width="960" height="206" rx="16" fill="#FBE3D6" stroke="#E8693A" stroke-width="3"/>
+        <circle cx="880" cy="702" r="34" fill="#E8693A"/><text x="880" y="716" text-anchor="middle" font-size="38" font-weight="800" fill="#fff">B</text>
+        <text x="936" y="714" font-size="34" font-weight="700" fill="#054A37">Correct with observations</text>
       </g>
-    </svg>
+      </svg>
+    <div class="abs fragment" data-fragment-index="4" style="left:30px;top:808px;width:700px;text-align:center;font-size:36px;color:var(--ink)">\(\mathcal{L}_A=\mathcal{L}\big(\hat Q,\;Q^{\text{NWM}}\big)\ \text{at every reach}\)</div>
+    <div class="abs fragment" data-fragment-index="4" style="left:818px;top:788px;width:960px;text-align:center;font-size:33px;color:var(--ink)">\(\mathcal{L}_B=\underbrace{\mathcal{L}_{\text{NSE}}}_{\text{gauges}}+\underbrace{\mathcal{L}_{\text{pinball}}}_{q_{50},\,q_{90},\,q_{99}}+0.3\,\underbrace{\mathcal{L}_{\text{prior}}}_{\text{stay near NWM}}\)</div>
   </div>
   <aside class="notes">
     The model in four ideas. Each reach starts with its own inputs: weather, the rain forecast, catchment properties, and past flow where a gauge is visible.
@@ -1551,13 +1548,13 @@
     [click] Second, share. Three graph layers let each reach exchange information with its upstream and downstream neighbours. The moving dots are those messages.
     [click] Third, route. Learned travel-time kernels move runoff downstream, so a flood wave takes time to arrive. The result is a six-hourly forecast, ten days ahead, at every reach.
     [click] At gauges whose recent flow is visible, a separate gauge head sharpens the forecast and adds upper quantiles for flood warning.
-    [click] Training has two stages. A: every reach learns from the National Water Model retrospective simulation, with no gauge data. B: we correct the model with observed flow at the few gauges, while a prior keeps it near the simulation. To test transfer, five fold models each withhold a fifth of the gauges.
+    [click] Training has two stages. A, simulation: every reach learns to reproduce the National Water Model retrospective, with no gauge data. B, observations: we correct the model with observed flow at the few gauges, while a prior keeps it near the simulation. To test transfer, five fold models each withhold a fifth of the gauges.
   </aside>
 </section>
 
 <!-- ================================================================ 32. P4 PROTOCOL -->
 <section>
-  <div class="tbar"><b>Part 4:</b>Forecast protocol and test design</div>
+  <div class="tbar"><b>Study 4:</b>Forecast protocol and test design</div>
   <div class="body" style="gap:30px">
     <div class="card enter" style="flex:0 0 auto;margin-top:22px"><span class="tab">One forecast rule for every model</span>
       <svg viewBox="0 0 1760 230" style="width:100%;height:230px" role="img" aria-label="Forecast timeline">
@@ -1608,7 +1605,7 @@
 
 <!-- ================================================================ 33. P4 KEY RESULT -->
 <section>
-  <div class="tbar"><b>Part 4:</b>Key result, skill at gauges the model never saw</div>
+  <div class="tbar"><b>Study 4:</b>Key result, skill at gauges the model never saw</div>
   <div class="body" style="gap:18px">
     <div class="row" style="flex:1 1 auto;min-height:0;gap:30px;margin-top:14px">
       <svg viewBox="0 0 1180 700" style="flex:0 0 1180px;height:700px" role="img" aria-label="Median days 1-5 NSE: gauged 0.415 GNN, 0.414 LSTM, 0.253 NWM; held-out 0.378 GNN, 0.111 LSTM, 0.258 NWM">
@@ -1682,209 +1679,123 @@
   </aside>
 </section>
 
-<!-- ================================================================ 34. P4 LEAD TIME -->
+<!-- ================================================================ S4 HEADWATER MAP -->
 <section>
-  <div class="tbar"><b>Part 4:</b>Lead time, and natural-flow headwaters</div>
-  <div class="body" style="gap:20px">
-    <div class="row" style="flex:1 1 auto;min-height:0;gap:28px;margin-top:20px">
-      <div class="card enter" style="flex:0 0 1220px;display:flex;flex-direction:column;gap:18px"><span class="tab">Median NSE by lead time, 6 h → 10 days</span>
-        <img src="assets/img/gnn_report_leadtime.png" alt="Median NSE by lead time for GNN, LSTM and NWM, gauged and held-out" style="width:100%;height:auto">
-        <div class="row" style="gap:24px;font-size:29px">
-          <div class="f1"><span class="test t">Gauged</span>: LSTM ahead at 24 h (0.629 vs 0.572); curves cross near 60 h; GNN ahead at 120 h (0.310 vs 0.270) and 240 h (0.148 vs 0.074)</div>
-          <div class="f1"><span class="test s">Held-out</span>: GNN ahead of LSTM at every lead; NWM best only at 6 h (0.842 vs 0.718)</div>
-        </div>
-      </div>
-      <div class="card f1 fragment fade-left"><span class="tab">Headwaters without dams</span>
-        <table class="tt" style="font-size:28px;margin-top:4px">
-          <tr><th>Days 1–5</th><th style="background:var(--gnn)">GNN</th><th style="background:var(--lstm)">LSTM</th><th style="background:var(--nwm)">NWM</th></tr>
-          <tr><td><span class="test t">Gauged</span><br><span class="cap">54 gauges</span></td><td class="b">0.399</td><td>0.371</td><td>0.157</td></tr>
-          <tr><td><span class="test s">Held-out</span><br><span class="cap">52 gauges</span></td><td class="b">0.353</td><td>0.088</td><td>0.157</td></tr>
-        </table>
-        <p class="cap" style="margin-top:16px">Natural-flow subset: no upstream dam or other gauge. The held-out advantage holds; at gauges the GNN is ahead but intervals overlap with the LSTM.</p>
-      </div>
-    </div>
-  </div>
+  <div class="tbar"><b>Study 4:</b>A regulated basin: the headwater gauges</div>
+  <img class="abs enter-fade" src="assets/img/tva_fig18_map.png" alt="Tennessee River Basin: reaches with no dam upstream, reaches below a dam, the 42 TVA dams, the 54 headwater gauges and the other 47 gauges" style="left:20px;top:104px;width:1510px;height:947px">
+  <div class="abs fragment fade-left" data-fragment-index="0" style="left:1560px;top:190px;width:330px;box-sizing:border-box"><div class="kpi"><span class="n" style="color:#E8935A"><span data-count="42">42</span></span><span class="l">TVA dams regulate the main stems</span></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="1" style="left:1560px;top:400px;width:330px;box-sizing:border-box"><div class="kpi"><span class="n" style="color:#2A78D4"><span data-count="54">54</span></span><span class="l">headwater gauges: no dam, no gauge upstream</span></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="2" style="left:1560px;top:660px;width:330px;box-sizing:border-box"><div class="kpi"><span class="n"><span data-count="95">95</span>%</span><span class="l">of reaches have no dam upstream</span></div></div>
   <aside class="notes">
-    Two checks on that headline. First, lead time, from 6 hours out to 10 days. Gauged: the LSTM is better in the first day or two, 0.629 versus 0.572 at 24 hours, because it uses the gauge's recent flow very well. The curves cross near 60 hours, and the graph model leads after that, out to ten days. Held-out: the graph model is ahead of the LSTM at every lead. NWM wins only at 6 hours, where it benefits from assimilating observations.
-    [click] Second, natural flow. Much of this basin is regulated by dams, and no model is given reservoir releases. In 54 headwater basins with no dam upstream, the same pattern holds: held-out, 0.353 for the GNN versus 0.088 for the LSTM. At gauges the GNN is ahead, but the intervals overlap.
+    As you know, the Tennessee River Basin is highly regulated. This map shows where the 42 TVA dams, the black triangles, reach: the orange rivers have a dam upstream, and below a dam the flow follows reservoir operations that none of our models is given.
+    So to see how the models compare on natural flow, let's look at the headwater basins.
+    [click] Forty-two TVA dams, concentrated on the main stems.
+    [click] The blue dots are 54 headwater gauges: no dam and no other gauge upstream. These are the cleanest test of the models.
+    [click] And these natural-flow reaches are 95 percent of the network, so this is not a corner case.
   </aside>
 </section>
 
-<!-- ================================================================ 35. P4 LIMITS -->
+<!-- ================================================================ S4 HEADWATER RESULTS -->
 <section>
-  <div class="tbar"><b>Part 4:</b>Honest limits</div>
-  <div class="body" style="gap:22px">
-    <div class="row" style="flex:1 1 auto;min-height:0;gap:28px;margin-top:20px">
-      <div class="card enter" style="flex:0 0 1020px;display:flex;flex-direction:column"><span class="tab red">Flood peaks are too low</span>
-        <div class="ctr" style="flex:1 1 auto;min-height:0"><img class="fig" src="assets/img/gnn_report_peak_error.png" alt="Median forecast error in peak size above the 99th percentile, issued 1, 3 and 5 days before the peak"></div>
-        <p style="font-size:29px;margin-top:6px">Peaks above the 99th percentile: <b class="r">56–80% too low</b> for every model. GNN q99 tail head is close (<b>+21%</b> at 1 day, gauged).</p>
-      </div>
-      <div class="col f1" style="gap:36px">
-        <div class="card fragment fade-left"><span class="tab red">Hurricane Helene</span>
-          <div style="font-size:30px;line-height:1.45">Peaks <b>28–45×</b> the gauge's 99th percentile: <b class="r">missed by every model</b>, even the GNN with the rain that fell.</div>
-        </div>
-        <div class="card fragment fade-left"><span class="tab">Not yet known</span>
-          <ul style="font-size:29px">
-            <li>Is the transfer from <b>connectivity</b>, <b>routing</b>, or <b>NWM pretraining</b>? <span class="r">Attribution experiments in progress.</span></li>
-            <li>Spatially blocked holdouts; mass-conservation audit</li>
-            <li>One training seed per model</li>
-          </ul>
-        </div>
-        <div class="card fragment fade-left"><span class="tab">Also</span>
-          <div style="font-size:28px;line-height:1.4">Forecasts are too smooth (variability ratio 0.690 gauged, 0.613 held-out). No reservoir releases as inputs.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="tbar"><b>Study 4:</b>Headwater basins without dams</div>
+  <div class="card abs enter" style="position:absolute;left:58px;top:128px;width:1160px;height:760px;padding:44px 20px 16px;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><span class="tab" style="font-size:30px">Median NSE, days 1&ndash;5</span><img src="assets/img/tva_fig19_headwater.png" alt="Median NSE over days 1-5 at 54 gauged headwater gauges and 52 held-out headwater gauges: GNN 0.399 and 0.353, LSTM 0.371 and 0.088, NWM 0.157 and 0.157" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+  <div class="abs fragment fade-left" data-fragment-index="1" style="left:1244px;top:128px;width:620px;height:362px;box-sizing:border-box"><div class="card" style="height:100%;padding:44px 24px 16px;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><span class="tab t" style="font-size:28px">Gauged</span><div class="kpi t" style="align-items:center;text-align:center"><span class="n" style="font-size:84px"><span data-count="94">94</span>%</span><span class="l" style="font-size:27px">of headwater gauges where the GNN beats NWM</span></div></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="2" style="left:1244px;top:526px;width:620px;height:362px;box-sizing:border-box"><div class="card" style="height:100%;padding:44px 24px 16px;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><span class="tab s" style="font-size:28px">Held-out</span><div class="kpi s" style="align-items:center;text-align:center"><span class="n" style="font-size:84px"><span data-count="90">90</span>%</span><span class="l" style="font-size:27px">of unseen gauges where the GNN beats the LSTM (87% vs NWM)</span></div></div></div>
+  <div class="abs banner peach fragment fade-up" data-fragment-index="3" style="left:58px;top:916px;width:1806px;height:104px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:38px"><span>Without dams, the GNN is <b>ahead at gauges</b> and <span style="color:#E00">far ahead at unseen gauges</span>.</span></div>
   <aside class="notes">
-    Now the limits.
-    First, flood peaks. For floods above each gauge's 99th percentile, every model's peak is 56 to 80 percent too low, the graph model included. Its mean forecast is too smooth. The tail head helps: its 99th-percentile forecast is close to the observed peak size, plus 21 percent one day ahead at gauged sites.
-    [click] Hurricane Helene, with peaks 28 to 45 times the gauge's 99th percentile, was missed by every model, even when we fed the graph model the rain that actually fell.
-    [click] Most important scientifically: we don't yet know why the model transfers. It could be the graph connectivity, the routing, or the NWM pretraining. Matched ablations are running now, along with spatially blocked holdouts and a mass-conservation audit. And these are single-seed results.
-    [click] Finally, forecasts are too smooth, and no reservoir releases are given as inputs.
+    Here are the results on the headwater gauges, days 1 to 5. On the left: at the 54 gauges where recent flow is shown, the GNN reaches 0.399 against 0.371 for the LSTM and 0.157 for NWM. Without dam effects, the GNN is ahead at gauges, where on all gauges the two tie. At the 52 held-out headwater gauges, never seen in training, it is 0.353 against 0.088 for the LSTM and 0.157 for NWM.
+    [click] At gauges, the GNN beats NWM at 94 percent of headwater gauges.
+    [click] At held-out gauges it beats the LSTM at 90 percent, and NWM at 87 percent.
+    [click] So in natural-flow basins the GNN is ahead at gauges and far ahead at gauges it has never seen. One caution: these are medians over gauges, with intervals that overlap at gauged sites.
+  </aside>
+</section>
+
+<!-- ================================================================ 34. P4 LEAD TIME -->
+<section>
+  <div class="tbar"><b>Study 4:</b>Lead time</div>
+  <div class="card abs enter" style="position:absolute;left:58px;top:128px;width:1806px;height:700px;padding:44px 20px 12px;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><span class="tab" style="font-size:30px">Median NSE by lead time, 6 h &rarr; 10 days</span><img src="assets/img/gnn_report_leadtime.png" alt="Median NSE by lead time for GNN, LSTM and NWM at gauged and held-out gauges" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+  <div class="abs fragment fade-up" data-fragment-index="0" style="left:58px;top:856px;width:880px;height:168px;box-sizing:border-box"><div class="card" style="height:100%;padding:42px 22px 10px;box-sizing:border-box"><span class="tab t" style="font-size:28px">Gauged</span><div style="font-size:34px;line-height:1.25">LSTM leads the first day. The <b>GNN leads from ~3 days</b>.</div></div></div>
+  <div class="abs fragment fade-up" data-fragment-index="1" style="left:984px;top:856px;width:880px;height:168px;box-sizing:border-box"><div class="card" style="height:100%;padding:42px 22px 10px;box-sizing:border-box"><span class="tab s" style="font-size:28px">Held-out</span><div style="font-size:34px;line-height:1.25">The <b>GNN beats the LSTM at every lead</b>. NWM wins only at 6&nbsp;h.</div></div></div>
+  <aside class="notes">
+    Now lead time, from 6 hours out to 10 days, the median NSE across gauges. On the left, gauges where recent flow is shown; on the right, held-out gauges the model never saw.
+    [click] Gauged: the LSTM is better in the first day or two, 0.629 versus 0.572 at 24 hours, because it uses the gauge's recent flow very well. The curves cross near 60 hours, and the graph model leads after that: at 120 hours 0.310 versus 0.270, and at 240 hours 0.148 versus 0.074.
+    [click] Held-out: the graph model is ahead of the LSTM at every lead. NWM wins only at 6 hours, 0.842 versus 0.718, where it benefits from assimilating observations. The natural-flow headwater results were on the previous slides: there the graph model also leads at gauges.
+  </aside>
+</section>
+
+<!-- ================================================================ S4 EVERY REACH -->
+<section>
+  <div class="tbar"><b>Study 4:</b>Every reach, 24 h ahead</div>
+  <div class="card abs enter" style="position:absolute;left:58px;top:118px;width:1000px;height:930px;padding:16px 18px 14px;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><img src="assets/img/tva_fig13_every_reach.png" alt="Map of every reach: top, the GNN's NSE against the NWM retrospective; bottom, GNN minus NWM, blue where the GNN is closer" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+  <div class="abs enter" style="left:1094px;top:128px;width:770px;font-size:33px;white-space:nowrap;color:var(--msu)">How often is the <span class="r">GNN closer</span>?</div>
+  <div class="abs fragment fade-left" data-fragment-index="0" style="left:1094px;top:222px;width:770px;height:236px;box-sizing:border-box"><div class="card" style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px 12px;box-sizing:border-box"><span class="tab t" style="font-size:28px">vs NWM &middot; 24 h</span><div class="kpi" style="align-items:center"><span class="n" style="font-size:92px;color:var(--temporal)">65%</span><span class="l" style="font-size:29px;margin-top:2px">of reaches: the GNN is closer</span></div></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="1" style="left:1094px;top:476px;width:770px;height:236px;box-sizing:border-box"><div class="card" style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px 12px;box-sizing:border-box"><span class="tab s" style="font-size:28px">vs NWM &middot; 72 h</span><div class="kpi" style="align-items:center"><span class="n" style="font-size:92px;color:var(--spatial)">70%</span><span class="l" style="font-size:29px;margin-top:2px">of reaches: the GNN is closer</span></div></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="2" style="left:1094px;top:730px;width:770px;height:236px;box-sizing:border-box"><div class="card" style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px 12px;box-sizing:border-box"><span class="tab " style="font-size:28px">vs LSTM &middot; 24 h</span><div class="kpi" style="align-items:center"><span class="n" style="font-size:92px;color:var(--msu)">88%</span><span class="l" style="font-size:29px;margin-top:2px">of reaches: the GNN is closer</span></div></div></div>
+  <div class="abs fragment fade-up" data-fragment-index="3" style="left:1094px;top:972px;width:770px;height:60px;box-sizing:border-box;background:var(--next);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:26px;line-height:1.2;color:var(--ink);padding:0 16px">The reference is a simulation, not observations.</div>
+  <aside class="notes">
+    This figure shows every reach in the Tennessee network that has an NWM reference, about 52,000 reaches, at 24 hours. On top, the GNN's NSE against the NWM retrospective at each reach: greener is better, and wider lines are larger rivers. Below, the GNN's NSE minus the NWM forecast's: blue means the GNN is closer to the retrospective.
+    [click] At 24 hours, the GNN is closer to the retrospective than the NWM forecast at 65 percent of reaches.
+    [click] At 72 hours, at 70 percent of reaches.
+    [click] And against the LSTM at 24 hours, the GNN is closer at 88 percent of reaches. It leads in every drainage-area class. Small streams have low scores for every model, because their flow is flashy and the retrospective itself is uncertain there.
+    [click] The caveat: this measures agreement with the NWM retrospective, which the GNN is partly trained on. It is a simulation reference, not observed accuracy at ungauged reaches. Behind the dams the GNN is slightly behind NWM up to about 3 days, and the main stem below the large reservoirs is poor for every model.
   </aside>
 </section>
 
 <!-- ================================================================ 36. P4 CONCLUSION -->
 <section>
-  <div class="tbar"><b>Part 4:</b>Conclusion</div>
-  <div class="body" style="gap:40px">
-    <p class="lead enter">Part 4 answers: <b>a network representation transfers to withheld gauges</b> under a realistic forecast protocol.</p>
-    <div class="concl">
-      <div class="est enter" style="--d:.15s"><span class="tab">Established</span>
-        <ul>
-          <li>One model forecasts <b>all 58,834 reaches</b>, 10 days ahead, from issue-time rain.</li>
-          <li>Ties a tuned LSTM at gauges (<b>0.415 vs 0.414</b>).</li>
-          <li><b>Transfers to withheld gauges</b>: 0.378 vs 0.111 (LSTM).</li>
-        </ul>
-      </div>
-      <div class="nxt fragment fade-left"><span class="tab">Next Challenge</span>
-        <ul>
-          <li><span class="r">Attribution:</span> graph vs. routing vs. NWM pretraining.</li>
-          <li><span class="r">Extremes:</span> flood peaks and events beyond training range.</li>
-          <li><span class="r">Generality:</span> one basin, one seed; transfer across regions is untested.</li>
-        </ul>
-        <div class="nextline fragment zoom-in">Next: representations pretrained at scale</div>
-      </div>
-    </div>
-  </div>
+  <div class="tbar"><b>Study 4:</b>Conclusion</div>
+  <div class="abs enter" style="left:56px;top:112px;width:1808px;font-size:35px;color:var(--ink);white-space:nowrap"><b>A river-network representation transfers to withheld gauges</b> under a realistic protocol.</div>
+  <div class="abs enter" style="--d:.15s;left:58px;top:224px;width:800px;height:290px;box-sizing:border-box;background:var(--est);border-radius:26px;padding:60px 32px 16px;color:var(--msu);font-size:30px"><span class="tab" style="position:absolute;top:-24px;left:34px;background:var(--msu);color:#fff;font-size:30px;padding:4px 18px">Where the GNN helps</span>
+    <ul style="margin:0;padding-left:1.1em;line-height:1.35"><li><b>Ungauged reaches:</b> keeps skill where no gauge was seen.</li><li><b>Longer leads:</b> strongest beyond ~3 days.</li><li><b>Natural-flow headwaters:</b> ahead even at gauges.</li></ul></div>
+  <div class="abs fragment fade-left" data-fragment-index="1" style="left:58px;top:560px;width:800px;height:290px;box-sizing:border-box;background:var(--next);border-radius:26px;padding:60px 32px 16px;color:var(--msu);font-size:30px"><span class="tab" style="position:absolute;top:-24px;left:34px;background:#FF2B47;color:#fff;font-size:30px;padding:4px 18px">Limitations</span>
+    <ul style="margin:0;padding-left:1.1em;line-height:1.35"><li><span class="r">Floods:</span> peaks too low; extremes missed.</li><li><span class="r">Scale:</span> one basin; other regions untested.</li><li><span class="r">Attribution:</span> graph, routing, or prior?</li></ul></div>
+  <div class="card abs fragment fade-up" data-fragment-index="0" style="position:absolute;left:884px;top:224px;width:980px;height:626px;box-sizing:border-box;padding:44px 16px 12px;display:flex;flex-direction:column"><span class="tab red" style="font-size:28px">Limitation: flood peaks are too low</span>
+    <div class="ctr" style="flex:1 1 auto;min-height:0"><img src="assets/img/gnn_report_peak_error.png" alt="Median forecast error in peak size above the 99th percentile, issued 1, 3 and 5 days before the peak, for GNN, LSTM, NWM and the GNN tail head" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+    <div style="font-size:28px;line-height:1.25;margin-top:6px;color:var(--ink)">Peaks above the 99th percentile: <b class="r">56&ndash;80% too low</b> for every model. Hurricane Helene (28&ndash;45&times;) was missed by all.</div></div>
+  <div class="abs fragment zoom-in" data-fragment-index="2" style="left:58px;top:894px;width:1806px;height:96px;box-sizing:border-box;background:var(--msu);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:700;color:#fff">Next: tokenize the basin and pretrain representations at scale</div>
   <aside class="notes">
-    To summarize Part 4. One model forecasts all 58,834 reaches, ten days ahead, using only the rain forecast available at issue time. At gauges it ties a strong, tuned LSTM. And it transfers to withheld gauges, 0.378 versus 0.111, where the basin-based model falls apart.
-    [click] The next challenges are clear. Attribution: I need the matched ablations to say how much of this comes from the graph, from routing, or from simulation pretraining, and if a non-graph model with the same pretraining matches it, I'll say so. Extremes: flood peaks are badly underpredicted. And generality: this is one basin and one seed.
-    [click] Those challenges point toward the same direction, which is where I'd like to go next.
+    To summarize Study 4: a river-network representation transfers to withheld gauges under a realistic forecast protocol. Where does it help? First, at ungauged reaches: it keeps its skill at gauges it never saw, where the basin-based LSTM loses most of its skill. Second, at longer leads: from about three days on it is the strongest model, and it degrades least out to ten days. Third, in natural-flow headwaters without dams, it is ahead even at gauges.
+    [click] The first limitation is floods. This plot shows the error in the size of peaks above the 99th percentile: every model, the GNN included, is far too low, because the mean forecast is too smooth. The upper-quantile tail head is the better basis for flood warnings. And floods far outside the training range, like Hurricane Helene, are missed by every model.
+    [click] Second, generalizability at scale: this is one basin, one training seed, and no reservoir releases as inputs, so transfer across regions and hydroclimates is not established. Third, attribution: the matched ablations still have to say whether the transfer comes from the graph, the routing, or the simulation prior.
+    [click] That points to the next step: tokenize the basin, its fields and its river network, and pretrain the representation at scale, across many basins, so it can transfer beyond one region.
   </aside>
 </section>
 
 <!-- ================================================================ 37. DIRECTIONS: FRONTIER -->
 <section>
-  <div class="tbar"><b>Directions:</b>Toward a hydrologic foundation model on Frontier</div>
-  <div class="body" style="gap:24px">
-    <div class="qbox enter"><span class="ql">Question</span>Can basin and river-network representations be <span class="r">pretrained once, at scale</span>, and reused for many tasks and places?</div>
-    <div class="row" style="flex:1 1 auto;min-height:0;gap:0;align-items:stretch;margin-top:18px">
-      <div class="card enter" style="flex:0 0 520px;--d:.2s"><span class="tab">Data at native resolution</span>
-        <ul style="font-size:30px;line-height:1.45">
-          <li>Gridded weather, terrain, soils, land cover</li>
-          <li>BASINGRID-style basin cubes, chunked for parallel I/O</li>
-          <li>National river network (NHDPlus) as a graph</li>
-          <li>Simulations (NWM) + sparse gauges</li>
-        </ul>
-      </div>
-      <div class="gap-ar fragment" data-fragment-index="1"><span>›</span></div>
-      <div class="card fragment fade-up" data-fragment-index="1" style="flex:0 0 560px;background:#EEF4F1;border-color:var(--msu-5)"><span class="tab">Pretrain on Frontier</span>
-        <div style="font-size:30px;line-height:1.45">
-          <p><b class="g">Field + graph encoders</b> learned jointly: spatial fields on the nodes of a directed network</p>
-          <p style="margin-top:16px"><b class="g">Self-supervised objectives</b> from Basin2Vec: hydrologic relations, scale preservation, no streamflow needed</p>
-          <p style="margin-top:16px"><b class="g">Simulation + observation</b> supervision, as in the GNN</p>
-        </div>
-      </div>
-      <div class="gap-ar fragment" data-fragment-index="2"><span>›</span></div>
-      <div class="card f1 fragment fade-up" data-fragment-index="2"><span class="tab">Reuse</span>
-        <ul style="font-size:30px;line-height:1.45">
-          <li>Forecasts at ungauged reaches, nationally</li>
-          <li>Floods and droughts</li>
-          <li>Other variables: soil moisture, water quality</li>
-          <li>Few-shot adaptation to new regions</li>
-        </ul>
-      </div>
-    </div>
-    <div class="banner fragment zoom-in">Representations pretrained at scale, on native-resolution geospatial data.</div>
+  <div class="tbar"><b>What's next at ORNL</b></div>
+  <div class="abs enter" style="left:58px;top:130px;width:640px;height:708px;box-sizing:border-box;background:var(--msu);border-radius:26px;padding:56px 44px;display:flex;flex-direction:column;justify-content:center;color:#fff">
+    <div style="font-size:30px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:600">Project</div>
+    <div style="font-size:78px;font-weight:800;line-height:1.05;margin-top:14px">HydroORBIT</div>
+    <div style="width:200px;height:5px;background:var(--amber);border-radius:3px;margin:30px 0"></div>
+    <div style="font-size:38px;line-height:1.3;color:#E8F0EC">From one basin to a <b style="color:#fff">pretrained, national</b> forecasting model</div>
+    <div style="font-size:27px;margin-top:64px;color:#BFD3CA">with Dan Lu, Xiao Wang, Vinh Tran</div>
   </div>
+  <div class="abs fragment fade-left" data-fragment-index="0" style="left:730px;top:130px;width:1132px;height:220px;box-sizing:border-box;border:2.5px solid var(--line);border-radius:22px;background:#fff;display:flex;align-items:center;gap:30px;padding:0 36px"><div style="flex:0 0 96px;height:96px;border-radius:50%;background:var(--msu);color:#fff;font-size:54px;font-weight:800;display:flex;align-items:center;justify-content:center">1</div><div><div style="font-size:44px;font-weight:700;color:var(--msu);line-height:1.15">Tokenize the basin</div><div style="font-size:32px;line-height:1.3;color:var(--ink);margin-top:8px">Fields, river network and gauges become one shared input.</div></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="1" style="left:730px;top:374px;width:1132px;height:220px;box-sizing:border-box;border:2.5px solid var(--line);border-radius:22px;background:#fff;display:flex;align-items:center;gap:30px;padding:0 36px"><div style="flex:0 0 96px;height:96px;border-radius:50%;background:#16745B;color:#fff;font-size:54px;font-weight:800;display:flex;align-items:center;justify-content:center">2</div><div><div style="font-size:44px;font-weight:700;color:var(--msu);line-height:1.15">Pretrain at scale</div><div style="font-size:32px;line-height:1.3;color:var(--ink);margin-top:8px">Learn once from simulation and sparse observations, on Frontier.</div></div></div>
+  <div class="abs fragment fade-left" data-fragment-index="2" style="left:730px;top:618px;width:1132px;height:220px;box-sizing:border-box;border:2.5px solid var(--line);border-radius:22px;background:#fff;display:flex;align-items:center;gap:30px;padding:0 36px"><div style="flex:0 0 96px;height:96px;border-radius:50%;background:#E8693A;color:#fff;font-size:54px;font-weight:800;display:flex;align-items:center;justify-content:center">3</div><div><div style="font-size:44px;font-weight:700;color:var(--msu);line-height:1.15">Deliver forecasts that transfer</div><div style="font-size:32px;line-height:1.3;color:var(--ink);margin-top:8px">Inflow and flood forecasts at ungauged reaches, with uncertainty.</div></div></div>
+  <div class="abs fragment fade-up" data-fragment-index="3" style="left:58px;top:866px;width:1804px;height:130px;box-sizing:border-box;background:var(--next);border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:34px;line-height:1.3;color:var(--ink);padding:0 40px"><span><b>First, close the open questions:</b> why the network transfers, flood peaks, transfer beyond Tennessee.</span></div>
   <aside class="notes">
-    Where I'd take this at ORNL. Each part of the talk made the representation richer, but each was trained for one task, in one region. The natural next step is a hydrologic foundation model: representations pretrained once, at scale, and reused.
-    The data, at native resolution rather than averaged: gridded fields, basin cubes in BASINGRID's chunked format, which is designed for exactly this kind of parallel I/O, the national river network as a graph, and simulations plus sparse gauges.
-    [click] Pretraining on Frontier: field and graph encoders learned together, Basin2Vec's self-supervised objectives so we don't need streamflow everywhere, and the simulation-plus-observation supervision from the GNN.
-    [click] Then reuse: ungauged forecasting nationally, floods and droughts, other variables, and few-shot adaptation to new regions.
-    [click] In short: representations pretrained at scale, on native-resolution geospatial data.
-  </aside>
-</section>
-
-<!-- ================================================================ 38. DIRECTIONS: BEYOND HYDROLOGY -->
-<section>
-  <div class="tbar"><b>Directions:</b>Beyond hydrology, fields on directed networks</div>
-  <div class="body" style="gap:28px">
-    <div class="sub-banner enter">The same structure appears wherever <span class="r">flow moves through a network</span> embedded in a <span class="r">spatial field</span>.</div>
-    <div class="row" style="flex:1 1 auto;min-height:0;gap:30px;margin-top:16px">
-      <div class="card f1 domain enter" style="--d:.2s"><span class="tab">Power grids</span>
-        <svg viewBox="0 0 520 330" class="dom-svg"><use href="#dom-field-a"/><use href="#dom-net"/></svg>
-        <div class="dl"><b>Field:</b> weather, load, solar/wind<br><b>Network:</b> transmission lines<br><b>Task:</b> load and outage forecasting</div>
-      </div>
-      <div class="card f1 domain fragment fade-up"><span class="tab">Traffic</span>
-        <svg viewBox="0 0 520 330" class="dom-svg"><use href="#dom-field-b"/><use href="#dom-net"/></svg>
-        <div class="dl"><b>Field:</b> land use, population, events<br><b>Network:</b> directed road graph<br><b>Task:</b> flow and congestion prediction</div>
-      </div>
-      <div class="card f1 domain fragment fade-up"><span class="tab">Water distribution</span>
-        <svg viewBox="0 0 520 330" class="dom-svg"><use href="#dom-field-c"/><use href="#dom-net"/></svg>
-        <div class="dl"><b>Field:</b> demand, temperature, soils<br><b>Network:</b> pipes, pumps, tanks<br><b>Task:</b> pressure, demand, leak detection</div>
-      </div>
-    </div>
-    <div class="banner peach fragment zoom-in">One method question: how to <span class="r">align spatial fields to graph nodes</span> before propagating along directed edges.</div>
-  </div>
-  <aside class="notes">
-    The method question underneath Part 4 isn't specific to rivers. We have a directed network, and on each node we need information from a spatial field around it.
-    Power grids have that structure: weather, load, and solar and wind resource as fields; transmission lines as the network. [click] Traffic: land use and events as fields; a directed road graph. [click] Water distribution: demand and temperature as fields; pipes, pumps, and tanks as the network.
-    [click] In each case the hard part is the one we faced in the Tennessee basin: how to attach the right piece of the spatial field to each node, and then propagate along directed edges without losing either local detail or network structure. That's a computational-science problem that fits CSED's portfolio well, and I'd like to work on it in more than one domain.
+    Where this goes next at ORNL is HydroORBIT, the project I am working on now, with Dan Lu, Xiao Wang and Vinh Tran. The goal: go from one basin to a pretrained forecasting model that works nationally.
+    [click] Step one, tokenize the basin. The gridded fields, the river network and the gauges become one shared input that the model can read anywhere.
+    [click] Step two, pretrain once, at scale, on Frontier, from simulation at every reach plus the sparse observations, so the model does not depend on a gauge being present.
+    [click] Step three, deliver forecasts that transfer: inflow and flood forecasts at reaches with no gauge, with uncertainty, for hydropower and water management.
+    [click] Before scaling, we close the open questions from the river-network study: why the network transfers, which needs the matched ablations; flood peaks; and whether it transfers beyond the Tennessee basin.
   </aside>
 </section>
 
 <!-- ================================================================ 39. SUMMARY -->
 <section>
   <div class="tbar"><b>Summary</b></div>
-  <div class="body" style="gap:30px">
-    <div class="sub-banner enter" style="font-size:36px">Hydrologic generalization depends on <b>how we represent the basin</b>.</div>
-    <div class="row" style="align-items:stretch;gap:0;flex:1 1 auto;margin-top:26px">
-      <div class="card f1 rcard enter" style="--d:.2s"><span class="tab">HydroTransformer</span>
-        <div class="thumb" style="height:240px"><img src="assets/img/thumb_hydrotransformer_fields.png" alt="Distributed rasters" style="max-height:240px"></div>
-        <div class="sv">Preserve structure</div>
-        <div class="rd" style="font-size:29px">Distributed fields + FiLM: 0.668 median NSE in unseen basins</div>
-      </div>
-      <div class="gap-ar fragment" data-fragment-index="1"><span>›</span></div>
-      <div class="card f1 rcard fragment fade-up" data-fragment-index="1"><span class="tab">BASINGRID</span>
-        <div class="thumb" style="height:240px"><img src="assets/img/thumb_basingrid_cube.png" alt="BASINGRID array" style="max-height:240px"></div>
-        <div class="sv">Scale it</div>
-        <div class="rd" style="font-size:29px">9,067 basins, 1985–2024, &lt;1% precipitation MdAPE</div>
-      </div>
-      <div class="gap-ar fragment" data-fragment-index="2"><span>›</span></div>
-      <div class="card f1 rcard fragment fade-up" data-fragment-index="2"><span class="tab">Basin2Vec</span>
-        <div class="thumb" style="height:240px"><img src="assets/img/comps_b2v_relations_p3.png" alt="Embedding space" style="max-height:240px"></div>
-        <div class="sv">Make it reusable</div>
-        <div class="rd" style="font-size:29px">3.5× median skill on unseen basins, 5 predictors</div>
-      </div>
-      <div class="gap-ar fragment" data-fragment-index="3"><span>›</span></div>
-      <div class="card f1 rcard fragment fade-up" data-fragment-index="3"><span class="tab">River-network GNN</span>
-        <div class="thumb" style="height:240px"><div class="netbox" style="height:240px;width:250px" data-network></div></div>
-        <div class="sv">Connect it</div>
-        <div class="rd" style="font-size:29px">Transfers to withheld gauges, 0.378 vs 0.111</div>
-      </div>
-    </div>
-    <div class="banner fragment zoom-in">Next: pretrain these representations at scale, and carry them beyond hydrology.</div>
-  </div>
+  <div class="sub-banner abs enter" style="left:56px;top:120px;width:1808px;box-sizing:border-box;font-size:38px;padding:10px 20px">Hydrologic generalization depends on <b>how we represent the basin</b>.</div>
+  <div class="abs enter" style="--d:.15s;position:absolute;top:240px;height:640px;width:885px;box-sizing:border-box;border-radius:26px;padding:50px 40px 24px;color:var(--msu);font-size:37px;display:flex;flex-direction:column;justify-content:center;left:58px;background:var(--est)"><span class="tab" style="position:absolute;top:-26px;left:36px;background:var(--msu);color:#fff;font-size:32px;padding:4px 20px">Established</span><ul style="margin:0;padding-left:1.1em;line-height:1.35"><li style="margin-bottom:.55em"><b>Spatial fields</b> beat lumped inputs, most in unseen basins.</li><li style="margin-bottom:.55em"><b>BASINGRID</b> standardizes distributed data at national scale.</li><li style="margin-bottom:.55em"><b>Learned basin embeddings</b> are reusable across predictors and transfer to unseen basins.</li><li style="margin-bottom:.55em"><b>A river network</b> transfers to withheld gauges.</li></ul></div>
+  <div class="abs fragment fade-left" data-fragment-index="0" style="position:absolute;top:240px;height:640px;width:885px;box-sizing:border-box;border-radius:26px;padding:50px 40px 24px;color:var(--msu);font-size:37px;display:flex;flex-direction:column;justify-content:center;left:977px;background:var(--next)"><span class="tab" style="position:absolute;top:-26px;left:36px;background:#FF2B47;color:#fff;font-size:32px;padding:4px 20px">To be established</span><ul style="margin:0;padding-left:1.1em;line-height:1.35"><li style="margin-bottom:.55em"><b>Flood peaks</b> along the river network.</li><li style="margin-bottom:.55em"><b>Transfer beyond one region</b>, at national scale.</li><li style="margin-bottom:.55em"><b>Pretrained, reusable</b> representations (HydroORBIT).</li></ul></div>
+  <div class="banner dark abs fragment zoom-in" data-fragment-index="1" style="left:58px;top:912px;width:1804px;height:100px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:36px">Next: tokenize the basin and pretrain representations at scale.</div>
   <aside class="notes">
-    To wrap up. The thesis of the talk is that hydrologic generalization depends on how we represent the basin, and each part added one property.
-    Preserve structure: keeping the basin as a spatial field, conditioned through FiLM, held skill in unseen basins.
-    [click] Scale it: BASINGRID turned that into standardized infrastructure for over nine thousand basins and forty years, without distorting the basin.
-    [click] Make it reusable: Basin2Vec compressed each basin into an embedding that any model can use, with large gains on unseen basins.
-    [click] Connect it: the river-network GNN forecasts every reach and transfers to withheld gauges, with the mechanism still being tested.
-    [click] The next step is to pretrain these representations at scale, and to carry the field-on-graph idea beyond hydrology.
+    To wrap up. The thesis of the talk: hydrologic generalization depends on how we represent the basin.
+    What is established. Keeping the basin as spatial fields beats lumped inputs, most of all in unseen basins. BASINGRID makes that distributed representation standard at national scale. Learned basin embeddings are reusable: one frozen descriptor works across different predictors and transfers to unseen basins. And a river-network model transfers to gauges it never saw.
+    [click] What still has to be established: flood peaks along the river network, where every model is too low; transfer beyond one region, at national scale; and representations that are pretrained once and reused, which is HydroORBIT.
+    [click] So the next step is to tokenize the basin and pretrain these representations at scale. Thank you.
   </aside>
 </section>
 
@@ -1969,6 +1880,6 @@
 <script src="js/vendor/reveal/reveal.js"></script>
 <script src="js/vendor/reveal/plugin/notes/notes.js"></script>
 <script src="js/network.js?v=5"></script>
-<script src="js/deck.js?v=5"></script>
+<script src="js/deck.js?v=6"></script>
 </body>
 </html>
