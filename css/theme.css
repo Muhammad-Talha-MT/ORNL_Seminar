@@ -611,3 +611,23 @@ table.nse th.g { font-size: 24px; }
 table.nse .ws { background: var(--tint); }
 table.nse td { padding: 2px 6px; }
 table.nse tr:last-child td { border-bottom: 3px solid #8A9590; }
+
+/* Slide 8: single prominent pro / con per model family */
+.hm-pc { gap: 14px; padding: 14px 0 14px; border-top: 0; margin: 0 14px; align-items: stretch; }
+.hm-pc > div, .hm-pc > div + div { border: 2px solid; border-radius: 12px; padding: 10px 10px 14px; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: flex-start; }
+.hm-pc > div:first-child { background: #E8F3EC; border-color: var(--msu); }
+.hm-pc > div:last-child { background: #FCEBEA; border-color: #C62828; }
+.hm-pc h4 { font-size: 27px; margin: 2px 0 8px; justify-content: center; }
+.hm-pc ul { list-style: none; padding: 0; font-size: 31px; font-weight: 700; line-height: 1.2; }
+.hm-pc li { margin: 0; color: var(--ink); }
+.hm-pc ul { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; font-size: 29px; }
+/* Slide 12: single prominent benefit / limitation per representation */
+.ld-bl { grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.ld-bl > div { border: 2px solid; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-height: 200px; }
+.ld-bl > div:first-child { background: #EEF6E4; border-color: #8BC34A; }
+.ld-bl > div:last-child { background: #FCEBEA; border-color: #D32F2F; }
+.ld-bl .h { border-radius: 0; }
+.ld-bl ul { list-style: none; padding: 0 12px; margin: 0; flex: 1 1 auto; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 29px; font-weight: 700; }
+.ld-bl li { margin: 0; line-height: 1.2; }
+.ld-bl ul.lim li { color: #C62828; }
+.ld-bl ul:not(.lim) li { color: var(--ink); }

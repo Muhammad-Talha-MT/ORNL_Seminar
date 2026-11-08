@@ -199,8 +199,8 @@
       <div class="d">Simplified representation of watershed stores and fluxes.</div>
       <div class="hmfig"><img src="assets/img/model_conceptual.png" alt="Precipitation flows through soil, interflow and baseflow stores to a streamflow hydrograph"></div>
       <div class="hm-pc">
-        <div><h4 class="pro"><svg class="ic"><use href="#ic-check"/></svg> Pros</h4><ul><li>Hydrologically interpretable</li><li>Simple structure, efficient to run</li><li>Works with relatively limited data</li></ul></div>
-        <div><h4 class="con"><svg class="ic"><use href="#ic-x"/></svg> Cons</h4><ul><li>Processes are simplified</li><li>Requires calibration for each basin</li><li>Limited ability to represent spatial variability</li></ul></div>
+        <div><h4 class="pro"><svg class="ic"><use href="#ic-check"/></svg> Pros</h4><ul><li>Simple and efficient</li></ul></div>
+        <div><h4 class="con"><svg class="ic"><use href="#ic-x"/></svg> Cons</h4><ul><li>Needs calibration per&nbsp;basin</li></ul></div>
       </div>
       <div class="hm-ex"><span class="bk"><svg class="ic"><use href="#ic-book"/></svg></span><span><b>Examples:</b> HBV, SAC-SMA, Xinanjiang, GR4J</span></div>
     </div>
@@ -209,8 +209,8 @@
       <div class="d">Explicit representation of physical processes across the watershed.</div>
       <div class="hmfig"><img src="assets/img/model_process.png" alt="Hillslope cross-section with precipitation, evapotranspiration, infiltration, groundwater and channel routing"></div>
       <div class="hm-pc">
-        <div><h4 class="pro"><svg class="ic"><use href="#ic-check"/></svg> Pros</h4><ul><li>Physically based and interpretable</li><li>Captures spatial and temporal processes in detail</li><li>Can simulate many variables beyond streamflow</li></ul></div>
-        <div><h4 class="con"><svg class="ic"><use href="#ic-x"/></svg> Cons</h4><ul><li>Data intensive (inputs &amp; parameters)</li><li>Computationally expensive</li><li>Difficult to calibrate and transfer across many basins</li></ul></div>
+        <div><h4 class="pro"><svg class="ic"><use href="#ic-check"/></svg> Pros</h4><ul><li>Physically based detail</li></ul></div>
+        <div><h4 class="con"><svg class="ic"><use href="#ic-x"/></svg> Cons</h4><ul><li>Data-hungry and costly to run</li></ul></div>
       </div>
       <div class="hm-ex"><span class="bk"><svg class="ic"><use href="#ic-book"/></svg></span><span><b>Examples:</b> SWAT, VIC, MIKE SHE, HYPE, TOPKAPI</span></div>
     </div>
@@ -219,13 +219,13 @@
       <div class="d">Learn the forcing&ndash;streamflow relationship from observed data.</div>
       <div class="hmfig"><img src="assets/img/model_datadriven.png" alt="Meteorological forcings and basin attributes feed a machine learning model that predicts a streamflow hydrograph"></div>
       <div class="hm-pc">
-        <div><h4 class="pro"><svg class="ic"><use href="#ic-check"/></svg> Pros</h4><ul><li>Strong predictive performance</li><li>Learns complex, nonlinear relationships</li><li>Shares information across many basins (regional learning)</li></ul></div>
-        <div><h4 class="con"><svg class="ic"><use href="#ic-x"/></svg> Cons</h4><ul><li>Less interpretable</li><li>Performance depends on quality of data and representation</li><li>May extrapolate poorly outside training regimes</li></ul></div>
+        <div><h4 class="pro"><svg class="ic"><use href="#ic-check"/></svg> Pros</h4><ul><li>Strong predictive accuracy</li></ul></div>
+        <div><h4 class="con"><svg class="ic"><use href="#ic-x"/></svg> Cons</h4><ul><li>Black box</li></ul></div>
       </div>
       <div class="hm-ex"><span class="bk"><svg class="ic"><use href="#ic-book"/></svg></span><span><b>Examples:</b> LSTM, EA-LSTM, GRU, Transformers, GNNs</span></div>
     </div>
   </div>
-  <div class="takeaway fragment fade-up"><span class="st"><svg class="ic"><use href="#ic-star"/></svg></span><span><b style="color:var(--amber)">Takeaway:</b> Model family describes <i>how</i> the rainfall&ndash;runoff relationship is represented.<br>It is independent of the spatial setting (lumped vs. distributed) and the generalization task (temporal vs. spatial).</span></div>
+  <div class="takeaway fragment fade-up"><span class="st"><svg class="ic"><use href="#ic-star"/></svg></span><span><b style="color:var(--amber)">Takeaway:</b> Model family is <i>how</i> rainfall&ndash;runoff is represented, independent of the spatial setting or task.</span></div>
   <aside class="notes">
     Three broad model families represent the rainfall-runoff relationship in different ways.
     [click] Conceptual models give a simplified representation of watershed stores and fluxes: efficient to run, interpretable, but limited in spatial detail. Think HBV or SAC-SMA.
@@ -310,15 +310,15 @@
   <div class="ld-card enter" style="left:70px"><span class="tab">Lumped Representation</span>
     <div class="ld-fig"><img src="assets/img/ld_lumped.png" alt="Basin outline with stream network mapped to a table of aggregated attributes: area, mean precipitation, mean slope, forest fraction, soil texture" style="max-width:100%;max-height:100%;object-fit:contain"></div>
     <div class="ld-bl">
-      <div><div class="h b">Benefits</div><ul><li>Compact</li><li>Scalable</li><li>Easy to use</li></ul></div>
-      <div><div class="h l">Limitations</div><ul class="lim"><li><b>Spatial heterogeneity lost</b></li><li>Local process information removed</li><li>Drainage connectivity simplified</li></ul></div>
+      <div><div class="h b">Benefits</div><ul><li>Compact and scalable</li></ul></div>
+      <div><div class="h l">Limitations</div><ul class="lim"><li>Spatial heterogeneity lost</li></ul></div>
     </div>
   </div>
   <div class="ld-card fragment fade-left" data-fragment-index="1" style="left:1060px"><span class="tab">Distributed Representation</span>
     <div class="ld-fig"><img src="assets/img/ld_distributed.png" alt="Basin on a regular grid beside gridded precipitation, topography, land cover and stream network panels" style="max-width:100%;max-height:100%;object-fit:contain"></div>
     <div class="ld-bl">
-      <div><div class="h b">Benefits</div><ul><li><b>Spatially rich</b></li><li>Retains basin geometry</li><li>Keeps drainage structure</li></ul></div>
-      <div><div class="h l">Limitations</div><ul class="lim"><li>Hard to align across sources</li><li>Expensive to process and store</li><li><b>Hard to scale and standardize</b></li></ul></div>
+      <div><div class="h b">Benefits</div><ul><li>Spatially rich</li></ul></div>
+      <div><div class="h l">Limitations</div><ul class="lim"><li>Hard to scale and standardize</li></ul></div>
     </div>
   </div>
   <svg class="ld-arrow fragment zoom-in" data-fragment-index="2" viewBox="0 0 196 120" role="img" aria-label="Trade-off between lumped and distributed">
@@ -690,16 +690,16 @@
     <div class="concl">
       <div class="est enter" style="--d:.15s"><span class="tab">Established</span>
         <ul>
-          <li><b>Distributed fields</b> carry more information than basin-averaged (lumped) inputs.</li>
-          <li><b>Conditioning</b> dynamic fields on static basin structure outperforms simple concatenation.</li>
-          <li>The gains are largest in <b>unseen basins</b>.</li>
+          <li><b>Distributed fields</b> carry more information than lumped inputs.</li>
+          <li><b>Conditioning</b> on static structure beats concatenation.</li>
+          <li>Gains are largest in <b>unseen basins</b>.</li>
         </ul>
       </div>
       <div class="nxt fragment fade-left"><span class="tab">Next Challenge</span>
         <ul>
-          <li>The workflow is <span class="r">region-specific</span>: it was built for 61 basins in Michigan.</li>
-          <li>Distributed rasters are <span class="r">computationally expensive</span> to process, which limited us to six static variables.</li>
-          <li>Scaling to thousands of basins requires <span class="r">standardized data</span>.</li>
+          <li><span class="r">Region-specific:</span> built for 61 Michigan basins.</li>
+          <li><span class="r">Computationally expensive:</span> limited us to six static variables.</li>
+          <li>Scaling to thousands of basins needs <span class="r">standardized data</span>.</li>
         </ul>
         <div class="nextline fragment zoom-in">Next: BASINGRID, a standardized dataset</div>
       </div>
@@ -760,22 +760,22 @@
 <!-- ================================================================ S2 VARIABLES -->
 <section>
   <div class="tbar"><b>Study 2:</b>Variables and data sources</div>
-  <div class="body" style="gap:22px">
+  <div class="body" style="gap:34px">
     <div class="sub-banner enter"><b>16 variables</b> at three native temporal resolutions</div>
-    <div class="band daily enter" style="--d:.15s">
+    <div class="band daily enter" style="--d:.15s;padding-top:34px;padding-bottom:34px">
       <div class="k">DAILY<small>365 time steps / year</small><b>6 variables</b></div>
-      <div class="m"><h4>Meteorological forcings</h4><p>Precipitation &middot; minimum and maximum temperature &middot; shortwave radiation &middot; snow water equivalent &middot; vapor pressure</p></div>
-      <div class="s"><b>SOURCE</b>Daymet: ~1 km gridded daily meteorology</div>
+      <div class="m"><h4>Meteorological forcings</h4><p>Precipitation &middot; temperature (min/max) &middot; radiation &middot; snow water equivalent &middot; vapor pressure</p></div>
+      <div class="s"><b>SOURCE</b>Daymet (~1 km)</div>
     </div>
-    <div class="band annual fragment fade-up">
+    <div class="band annual fragment fade-up" style="padding-top:34px;padding-bottom:34px">
       <div class="k">ANNUAL<small>1 time step / year</small><b>2 variables</b></div>
-      <div class="m"><h4>Land-surface evolution</h4><p>Potential evapotranspiration (PET) &middot; land-cover class<br><span class="mut" style="font-size:22px">PET is computed daily with Hargreaves and stored as an annual sum.</span></p></div>
-      <div class="s"><b>SOURCES</b>PET: derived from CW3E<br>Land cover: NLCD</div>
+      <div class="m"><h4>Land-surface evolution</h4><p>Potential evapotranspiration (PET) &middot; land-cover class</p></div>
+      <div class="s"><b>SOURCES</b>PET: CW3E<br>Land cover: NLCD</div>
     </div>
-    <div class="band static fragment fade-up">
+    <div class="band static fragment fade-up" style="padding-top:34px;padding-bottom:34px">
       <div class="k">STATIC<small>no time dimension</small><b>8 variables</b></div>
-      <div class="m"><h4>Basin attributes</h4><p><b>Topography:</b> elevation &middot; <b>Soil:</b> clay, silt, sand, bulk density<br><b>Hydrogeology:</b> permeability, hydraulic conductivity &middot; <b>Agriculture:</b> tile drainage</p></div>
-      <div class="s"><b>SOURCES</b>DEM: USGS 3DEP &middot; Soil: SoilGrids<br>Subsurface: GLHYMPS &middot; Tile drainage: AgTile-US</div>
+      <div class="m"><h4>Basin attributes</h4><p>Elevation &middot; soil (texture, bulk density) &middot; permeability &middot; hydraulic conductivity &middot; tile drainage</p></div>
+      <div class="s"><b>SOURCES</b>3DEP &middot; SoilGrids<br>GLHYMPS &middot; AgTile-US</div>
     </div>
     <div class="banner dark fragment zoom-in">Different coordinate reference systems + different spatial and temporal resolutions</div>
   </div>
@@ -965,16 +965,16 @@
     <div class="concl">
       <div class="est enter" style="--d:.15s"><span class="tab">Established</span>
         <ul>
-          <li>Heterogeneous rasters can be harmonized into <b>common basin-aligned tensors</b>.</li>
-          <li>The 64 × 64 patches preserve basin <b>geometry, values, and categories</b>.</li>
-          <li>The pipeline scales to <b>9,067 basins</b> over <b>1985–2024</b>, using chunked, parallel storage.</li>
+          <li>Heterogeneous rasters harmonized into <b>basin-aligned tensors</b>.</li>
+          <li>64 × 64 patches preserve <b>geometry, values, and categories</b>.</li>
+          <li>Scales to <b>9,067 basins</b> over <b>1985–2024</b>.</li>
         </ul>
       </div>
       <div class="nxt fragment fade-left"><span class="tab">Next Challenge</span>
         <ul>
-          <li>Each basin is now a stack of <span class="r">variables × time × 64 × 64</span> values.</li>
-          <li>Every downstream model would have to learn to read this stack from scratch.</li>
-          <li>The tensors are <b class="r">too high-dimensional</b> to reuse directly.</li>
+          <li>Each basin is a <span class="r">variables × time × 64 × 64</span> stack.</li>
+          <li>Every model must learn to read it from scratch.</li>
+          <li><b class="r">Too high-dimensional</b> to reuse directly.</li>
         </ul>
         <div class="nextline fragment zoom-in">Next: Basin2Vec, a compact basin vector</div>
       </div>
@@ -1415,7 +1415,8 @@
   <div class="tbar"><b>Study 4:</b>Motivation</div>
   <div class="qbox enter abs" style="left:56px;top:112px;width:1808px;box-sizing:border-box;padding:10px 24px;font-size:35px;color:var(--ink)"><span class="ql">Motivation</span>Water managers need forecasts <span class="r">where there is no gauge</span>.</div>
   <div class="card abs enter" style="position:absolute;--d:.1s;left:58px;top:236px;width:1010px;height:640px;padding:46px 20px 18px;box-sizing:border-box"><span class="tab" style="font-size:30px">Example: forecasting inflow to a hydropower reservoir</span>
-    <video data-autoplay muted playsinline preload="metadata" controls poster="assets/img/hydroorbit_poster.jpg" style="width:100%;height:100%;object-fit:contain;border-radius:10px;background:#0B1220"><source src="assets/video/hydroorbit_web.mp4" type="video/mp4"></video>
+    <video data-autoplay muted playsinline preload="metadata" controls poster="assets/img/hydroorbit_poster.jpg" style="width:100%;height:calc(100% - 34px);object-fit:contain;border-radius:10px;background:#0B1220"><source src="assets/video/hydroorbit_web.mp4" type="video/mp4"></video>
+    <div style="text-align:center;font-size:20px;color:var(--muted);margin-top:8px;line-height:1.2">Animation data provided by <b>Vinh Tran</b>.</div>
   </div>
   <div class="card abs fragment fade-left" data-fragment-index="1" style="position:absolute;left:1092px;top:236px;width:770px;height:196px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab blue" style="font-size:28px;">1 &middot; The need</span><div style="font-size:30px;line-height:1.28;color:var(--ink)">Managers need forecasts <b>days ahead</b>, also on rivers <b>with no gauge</b>.</div></div>
   <div class="card abs fragment fade-left" data-fragment-index="2" style="position:absolute;left:1092px;top:456px;width:770px;height:196px;padding:42px 24px 10px;box-sizing:border-box"><span class="tab red" style="font-size:28px;">2 &middot; Prior work</span><div style="font-size:30px;line-height:1.28;color:var(--ink)">GNNs on the Danube: <b>river topology added almost nothing</b>.<br><span class="mut" style="font-size:24px">Kirschstein &amp; Sun, 2024 &middot; every node gauged, 6 h ahead</span></div></div>
@@ -1811,12 +1812,12 @@
       <div style="background:#fff;border-radius:50%;padding:8px;width:130px;height:130px;box-sizing:border-box"><img src="assets/img/msu_seal.png" alt="Michigan State University seal" style="width:100%;height:100%"></div>
       <img src="assets/img/ornl_logo_white.svg" alt="Oak Ridge National Laboratory" style="width:330px">
     </div>
-    <div class="row" style="gap:40px;align-items:stretch;justify-content:center;margin-top:34px"><div class="enter" style="--d:0.7s;border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:26px;box-sizing:border-box"><img src="assets/img/qr_slides_white.svg" alt="QR code: Access these slides" style="width:190px;height:190px;display:block"><div style="text-align:left;color:#fff"><div style="font-size:34px;font-weight:700;line-height:1.15">Access these slides</div></div></div><div class="enter" style="--d:0.85s;border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:26px;box-sizing:border-box"><img src="assets/img/qr_profile_white.svg" alt="QR code: My profile and papers" style="width:190px;height:190px;display:block"><div style="text-align:left;color:#fff"><div style="font-size:34px;font-weight:700;line-height:1.15">My profile and papers</div></div></div></div>
+    <div class="row" style="gap:40px;align-items:stretch;justify-content:center;margin-top:34px"><div class="enter" style="--d:0.7s;border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:26px;box-sizing:border-box"><img src="assets/img/qr_slides_white.svg" alt="QR code: Access these slides" style="width:190px;height:190px;display:block"><div style="text-align:left;color:#fff"><div style="font-size:34px;font-weight:700;line-height:1.15">Access these slides</div></div></div><div class="enter" style="--d:0.85s;border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:26px;box-sizing:border-box"><img src="assets/img/qr_profile_white.svg" alt="QR code: My profile, papers, and code" style="width:190px;height:190px;display:block"><div style="text-align:left;color:#fff"><div style="font-size:34px;font-weight:700;line-height:1.15">My profile, papers, and code</div></div></div></div>
     <div class="enter-fade" style="--d:1s;font-size:28px;color:#DDEAE4;margin-top:26px">Muhammad Talha · Michigan State University · talhamuh@msu.edu</div>
   </div>
   <aside class="notes">
     Thank you. I'd like to thank my advisors, Dr. Pouyan Nejadhashemi and Dr. Pang-Ning Tan, my co-authors, and my mentors and colleagues here at ORNL for the Tennessee River Basin work.
-    The QR codes link to these slides, to my profile and papers, and (from the Basin2Vec slide) to the Basin2Vec page. I'm happy to take questions on any part: the architectures, the BASINGRID infrastructure, the contrastive objective, or the forecast evaluation.
+    The QR codes link to these slides, to my profile, papers, and code, and (from the Basin2Vec slide) to the Basin2Vec page. I'm happy to take questions on any part: the architectures, the BASINGRID infrastructure, the contrastive objective, or the forecast evaluation.
     Likely questions to be ready for: whether the GNN's held-out advantage comes from the graph or from NWM pretraining, where the answer is that the matched ablation is running now; how NWM's assimilation affects the comparison; why the LSTM wins at early leads at gauges; and how BASINGRID's chunking would map onto Frontier's file system.
   </aside>
 </section>
